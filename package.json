@@ -14,7 +14,14 @@
     "supertest": "^6.3.3"
   },
   "scripts": {
-    "start": "node server.js"
+    "test": "jest",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "load": "artillery run artillery.yml",
+    "dev:true": "DEV=true nodemon server.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "name": "unit_2_api_project",
   "version": "1.0.0",
