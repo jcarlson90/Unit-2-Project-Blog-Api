@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 exports.auth = async (req, res, next) => {
   try {
-    let token = req.header("Authorization").replace("Bearer ", "");
+    let token = req.header("Authorization").replace("Bearer ", " ");
     const data = jwt.verify(token, "secret");
     const user = await User.findOne({ _id: data._id });
     if (!user) {
@@ -35,10 +35,8 @@ exports.loginUser = async (req, res) => {
       if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
         res.status(400).send("You spelled your email wrong.");
       } else {
-        user.loggedIn = true;
         await user.save();
-        const token = await user.generateAuthToken();
-        res.json({ user, token });
+        res.json({ user });
       }
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -100,10 +98,10 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-xports.auth = async (req, res, next) => {
+exports.auth = async (req, res, next) => {
     try {
       const token = req.header('Authorization').replace('Bearer ', '')
-      const data = jwt.verify(token, 'secret')
+      const data = jwt.verify(token, process.env.SECRET)
       const user = await User.findOne({ _id: data._id })
       if (!user) {
         throw new Error()
@@ -115,60 +113,7 @@ xports.auth = async (req, res, next) => {
     }
   }
 
-exports.getAllPosts = async (req, res) => {
-    try{
-        const post = await Post.findById({_id:req.params.id})
-        await post.save
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
 
-exports.createPost = async (req, res) => {
-    try{
-        const post = new Post(req.body)
-        await post.save()
-        res.json({post})
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
-
-exports.getAPosts = async (req, res) => {
-    try{
-        const post = await Post.findOne({_id:req.params.id})
-        await post.save
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
-
-exports.updatePost = async (req, res) => {
-    try {
-        const post = await Post.updateOne({_id:req.params.id})
-        await post.save()
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
-
-exports.commentOnPost = async (req, res) => {
-    try {
-        const post = await Post.findOne({_id:req.params.id})
-        await post.save()
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
-
-exports.deletePost = async (req, res) => {
-    try {
-        const post = await post.deleteOne({_id:req.params.id})
-        await post.save()
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
 
 
 
