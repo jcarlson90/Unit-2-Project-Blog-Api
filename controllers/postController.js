@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken')
 
 exports.getAllPosts = async (req, res) => {
     try{
-      const post = await Post.findOne({_id:req.params.id, user: req.user._id}) 
-        await post.save
+      const posts = await Post.find({})
+      res.json(posts)  
     } catch (error) {
         res.status(401).json({message: error.message})
     }
@@ -14,36 +14,26 @@ exports.getAllPosts = async (req, res) => {
 
 exports.createPost = async (req, res) => {
     try{
-        const post = new Post(req.body)
-        await post.save()
-        res.json({post})
+        const postData = req.body
+        const user = req.user
+        if (!req.user) {
+            throw new Error({message: "user not found"})
+        } else {
+            const newPost = await Post.create(postData)
+            await newPost.save()
+            await user.posts.addToSet(newPost)
+            await user.save()
+            res.json(user)
+        }
     } catch (error) {
         res.status(401).json({message: error.message})
     }
 }
 
-exports.getAPosts = async (req, res) => {
+exports.getAPost = async (req, res) => {
     try{
         const post = await Post.findOne({_id:req.params.id})
-        await post.save
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
-
-exports.updatePost = async (req, res) => {
-    try {
-        const post = await Post.updateOne({_id:req.params.id})
-        await post.save()
-    } catch (error) {
-        res.status(401).json({message: error.message})
-    }
-}
-
-exports.commentOnPost = async (req, res) => {
-    try {
-        const post = await Post.findOne({_id:req.params.id})
-        await post.save()
+        res.json(post)
     } catch (error) {
         res.status(401).json({message: error.message})
     }
@@ -51,8 +41,8 @@ exports.commentOnPost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
     try {
-        const post = await post.deleteOne({_id:req.params.id})
-        await post.save()
+        const post = await Post.deleteOne({_id:req.params.id})
+        res.json({message: "post deleted"})
     } catch (error) {
         res.status(401).json({message: error.message})
     }

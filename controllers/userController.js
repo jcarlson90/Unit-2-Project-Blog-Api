@@ -36,7 +36,7 @@ exports.loginUser = async (req, res) => {
         res.status(400).send("You spelled your email wrong.");
       } else {
         await user.save();
-        res.json({ user });
+        res.json({message: "Logged In"});
       }
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -62,10 +62,10 @@ exports.logoutUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const updates = Object.keys(req.body);
-    const user = await User.findOne({ _id: req.params.id });
-    updates.forEach((update) => (user[update] = req.body[update]));
-    await user.save();
-    res.json(user);
+    //const user = await User.findOne({ _id: req.params.id });
+    updates.forEach((update) => (req.user[update] = req.body[update]));
+    await req.user.save();
+    res.json(req.user);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -95,6 +95,15 @@ exports.getUsers = async (req, res) => {
     res.json(loggedInUsers);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+exports.getAUser = async (req, res) => {
+  try {
+      const user = await User.findOne({_id: req.params.id})
+      res.json({user})
+  } catch (error) {
+      res.status(400).json({message:error.message})
   }
 };
 
