@@ -26,7 +26,7 @@ exports.createPost = async (req, res) => {
             res.json(user)
         }
     } catch (error) {
-        res.status(401).json({message: error.message})
+        res.status(403).json({message: error.message})
     }
 }
 

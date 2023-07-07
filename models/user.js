@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema ({
     email: { type: String, required: true},
     username: { type: String, required: true},
     password: { type: String, required: true },
-    posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Posts'}]
+    posts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Posts'}] // makes an array of different objects or else only one post would be made.
 }, {
     timestamps: true
 })

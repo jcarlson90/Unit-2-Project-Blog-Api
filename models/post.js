@@ -3,7 +3,7 @@ const { model, Schema } = require('mongoose')
 const postSchema = new Schema ({
    title: { type: String, required: true },
    postbody: {type: String, required: true },
-   user: { type: Schema.Types.ObjectId, required: true, ref: "User"}
+   user: { type: Schema.Types.ObjectId, ref: "User"}
 }, {
     timestamps: true
 })

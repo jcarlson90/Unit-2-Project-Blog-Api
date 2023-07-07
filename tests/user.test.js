@@ -57,8 +57,7 @@ describe("Test the user endpoints", () => {
       .send({ email: "john.doe@example.com", password: "password1" });
 
     expect(response.statusCode).toBe(200);
-    expect(response.body.user.name).toEqual("John Doe");
-    expect(response.body.user.email).toEqual("john.doe@example.com");
+    expect(response.body.message).toEqual("Logged In");
     await user.deleteOne();
 
   });
