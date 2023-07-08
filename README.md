@@ -44,4 +44,10 @@ Trello:
 https://trello.com/invite/b/rgmQOKs2/ATTIed5135bd4cdc74209eca838a434556c8AFD6CDAB/blog-api-project
 
 
+Wireframe:
+![Login/create user screen](Assets/Untitled-2023-07-08-0719.png)
+
+![View/create posts screen](Assets/Untitled-2023-07-08-0734.png)
+
+
 
